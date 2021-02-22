@@ -1,4 +1,6 @@
+.DS_Store
 .idea
 node_modules
-build
 yarn-error.log
+build
+!build/mockServiceWorker.js

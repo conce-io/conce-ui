@@ -1,8 +1,13 @@
 import React from "preact/compat";
+import App from "./App";
 
-const mount = (elementId = 'conce-container') => {
+const mount = (publicKey, currency, amount, elementId = 'conce-container') => {
     React.render(
-        <div>Conce UI mounted</div>,
+        <App
+            publicKey={publicKey}
+            amount={amount}
+            currency={currency}
+        />,
         document.getElementById(elementId)
     );
 }
