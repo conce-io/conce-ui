@@ -1,6 +1,14 @@
 import React from "preact/compat";
 
-React.render(
-    <div>Hello world</div>,
-    document.getElementById('conce-container')
-);
+const mount = (elementId = 'conce-container') => {
+    React.render(
+        <div>Conce UI mounted</div>,
+        document.getElementById(elementId)
+    );
+}
+
+if (window) {
+    window['Conce'] = {
+        mount,
+    };
+}
