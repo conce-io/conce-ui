@@ -2,7 +2,8 @@
   "name": "conce-ui",
   "version": "0.1.2",
   "description": "todo",
-  "main": "build/index.js",
+  "main": "build/build.js",
+  "module": "build/build.module.js",
   "author": "Balazs Otakomaiya",
   "license": "MIT",
   "scripts": {
