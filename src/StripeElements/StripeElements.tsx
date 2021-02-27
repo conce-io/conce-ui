@@ -2,6 +2,7 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import './StripeElements.module.css';
 
 interface Props {
     clientSecret: string;
@@ -68,40 +69,40 @@ const StripeElements = ({clientSecret}: Props) => {
 
     return (
         <form
-            id="payment-form"
+            className='form'
             onSubmit={handleSubmit}
         >
             <CardElement
-                id="card-element"
+                className='cardElement'
                 options={cardStyle}
                 onChange={handleChange}
             />
+
             <button
                 disabled={processing || disabled || succeeded}
-                id="submit"
             >
-        <span id="button-text">
-          {processing ? (
-              <div
-                  className="spinner"
-                  id="spinner"
-              />
-          ) : (
-              "Pay"
-          )}
-        </span>
+                <span id="button-text">
+                  {processing ? (
+                      <div
+                          className="spinner"
+                          id="spinner"
+                      />
+                  ) : (
+                      "Pay"
+                  )}
+                </span>
             </button>
             {/* Show any error that happens when processing the payment */}
             {error && (
                 <div
-                    className="card-error"
+                    className="cardError"
                     role="alert"
                 >
                     {error}
                 </div>
             )}
 
-            <p className={succeeded ? "result-message" : "result-message hidden"}>
+            <p className='result-message' style={{ display: succeeded ? 'block' : 'none' }}>
                 Payment succeeded. Refresh the page to pay again.
             </p>
         </form>
