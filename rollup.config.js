@@ -4,9 +4,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import typescript from '@rollup/plugin-typescript';
 import alias from "@rollup/plugin-alias";
-import modularCss from '@modular-css/rollup';
 import image from '@rollup/plugin-image';
-import { uglify } from "rollup-plugin-uglify";
+import scss from 'rollup-plugin-scss'
 
 export default {
   input: 'src/index.tsx',
@@ -43,16 +42,15 @@ export default {
         {find: 'react-dom', replacement: 'preact/compat'}
       ]
     }),
-    modularCss(),
     nodeResolve({
       jsnext: true, // remove?
     }),
+    scss(),
     commonjs(),
     typescript(),
     replace({
       preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify('production') // todo: is this OK?
     }),
-    process.env.NODE_ENV === 'production' && uglify(),
   ]
 };
