@@ -5,6 +5,9 @@ import { useEffect, useState } from 'preact/hooks';
 import { RadioOption } from "./RadioOption";
 import { PayPal } from "./PayPal";
 import { Stripe } from "./Stripe";
+// @ts-ignore
+import PayPalLogo from '../assets/paypal-logo.svg';
+import './App.scss';
 
 enum Gateway {
     Stripe = 'STRIPE',
@@ -96,12 +99,12 @@ const App = ({ publicKey, currency, amount }: AppProps) => {
 
     return (
         <div>
-            <fieldset>
-                <legend className="sr-only">
-                    Pay Now
-                </legend>
+            <fieldset className='conce'>
+                <div className='conce__title'>
+                    Choose a way to pay
+                </div>
 
-                <div className="bg-white rounded-md -space-y-px">
+                <div className="conce__radio-options">
                     <RadioOption
                         title='Credit or debit card'
                         selected={gateway === Gateway.Stripe}
@@ -123,7 +126,7 @@ const App = ({ publicKey, currency, amount }: AppProps) => {
                         title={
                             <img
                                 alt='PayPal logo'
-                                src={'/images/paypal-logo.svg'}
+                                src={PayPalLogo}
                                 width='60'
                                 height='19'
                             />

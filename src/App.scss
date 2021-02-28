@@ -1,0 +1,22 @@
+.conce {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
+    &__title {
+        margin-bottom: 0.5rem;
+    }
+
+    &__radio-options {
+        background: #F9FAFB;
+        border-radius: 0.5rem;
+    }
+
+    &__radio-option {
+        position: relative;
+        cursor: pointer;
+        border: 1px solid #F3F4F6;
+        padding: 1rem;
+    }
+}
