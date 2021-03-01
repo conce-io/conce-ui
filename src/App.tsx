@@ -8,6 +8,8 @@ import { Stripe } from "./Stripe";
 // @ts-ignore
 import PayPalLogo from '../assets/paypal-logo.svg';
 import './App.scss';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe, Stripe as StripeType } from "@stripe/stripe-js";
 
 enum Gateway {
     Stripe = 'STRIPE',
@@ -18,13 +20,7 @@ interface AppProps {
     publicKey: string;
     currency: string;
     amount: number;
-}
-
-interface StripeState {
-    publicKey: string;
-    intent: {
-        client_secret: string;
-    },
+    stripePublicKey: string;
 }
 
 interface PaypalState {
@@ -32,28 +28,23 @@ interface PaypalState {
     order: string;
 }
 
-const App = ({ publicKey, currency, amount }: AppProps) => {
+const App = ({publicKey, currency, amount, stripePublicKey}: AppProps) => {
+    const [stripePromise, setStripePromise] = useState<null | Promise<StripeType>>(null);
     const [gateway, setGateway] = useState(Gateway.Stripe);
-    const [stripe, setStripe] = useState<StripeState>(null);
     const [paypal, setPaypal] = useState<PaypalState>(null);
     const [isPaypalLoading, setIsPaypalLoading] = useState<boolean>(false);
-    const urlParams = new URLSearchParams({
-        currency,
-        amount: amount.toString(),
-    });
 
-    const fetchStripe = () => {
-        fetch(`http://conce.test/api/stripe/create?${urlParams}`, {
-            headers: {
-                publicKey,
-            }
-        })
-            .then(response => response.json())
-            .then(response => setStripe(response));
-    }
+    useEffect(() => {
+        setStripePromise(loadStripe(stripePublicKey));
+    }, []);
 
     const fetchPaypal = () => {
         setIsPaypalLoading(true);
+
+        const urlParams = new URLSearchParams({
+            currency,
+            amount: amount.toString(),
+        });
 
         fetch(`http://conce.test/api/paypal/create?${urlParams}`, {
             headers: {
@@ -66,10 +57,6 @@ const App = ({ publicKey, currency, amount }: AppProps) => {
                 setPaypal(response);
             });
     }
-
-    useEffect(() => {
-        fetchStripe();
-    }, []);
 
     useEffect(() => {
         if (gateway === Gateway.PayPal && !paypal) {
@@ -111,15 +98,13 @@ const App = ({ publicKey, currency, amount }: AppProps) => {
                         onClick={() => setGateway(Gateway.Stripe)}
                         optionKey={Gateway.Stripe}
                     >
-                        { stripe ? (
+                        <Elements stripe={stripePromise}>
                             <Stripe
-                                publicKey={stripe.publicKey}
-                                intent={stripe.intent}
+                                publicKey={publicKey}
+                                amount={amount}
+                                currency={currency}
                             />
-                            ) : (
-                                <span>Loading...</span>
-                            )
-                        }
+                        </Elements>
                     </RadioOption>
 
                     <RadioOption
@@ -135,7 +120,7 @@ const App = ({ publicKey, currency, amount }: AppProps) => {
                         onClick={() => setGateway(Gateway.PayPal)}
                         optionKey={Gateway.PayPal}
                     >
-                        { PayPalOption() }
+                        {PayPalOption()}
                     </RadioOption>
                 </div>
             </fieldset>

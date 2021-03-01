@@ -1,12 +1,13 @@
 import React from "preact/compat";
 import App from "./App";
 
-const mount = (publicKey, currency, amount, elementId = 'conce-container') => {
+const mount = (publicKey, currency, amount, stripePublicKey, elementId = 'conce-container') => {
     React.render(
         <App
             publicKey={publicKey}
             amount={amount}
             currency={currency}
+            stripePublicKey={stripePublicKey}
         />,
         document.getElementById(elementId)
     );
