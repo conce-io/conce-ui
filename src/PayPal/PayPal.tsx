@@ -4,11 +4,23 @@ import { PayPalButton } from "react-paypal-button-v2";
 
 interface Props {
     publicKey: string;
+    paypalPublicKey: string;
     orderId: string;
     currency: string;
+    onSuccess: () => void;
+    onError: (error) => void;
 }
 
-const PayPal = ({publicKey, orderId, currency}: Props) => {
+const PayPal = (
+    {
+        publicKey,
+        paypalPublicKey,
+        orderId,
+        currency,
+        onSuccess,
+        onError,
+    }: Props
+) => {
     const createOrder = (): Promise<string> => {
         return new Promise((resolve) => {
             resolve(orderId);
@@ -16,9 +28,9 @@ const PayPal = ({publicKey, orderId, currency}: Props) => {
     }
 
     const approveOrder = async (data): Promise<void> => {
-        await fetch('http://conce.test/api/paypal/capture', {
+        const capturePayment = await fetch('http://conce.test/api/paypal/capture', {
             headers: {
-                publicKey: 'test',
+                publicKey,
                 'content-type': 'application/json',
             },
             method: 'POST',
@@ -26,13 +38,24 @@ const PayPal = ({publicKey, orderId, currency}: Props) => {
                 orderId: data.orderID,
             }),
         });
+
+        const capturePaymentResult = await capturePayment.json();
+
+        if (capturePaymentResult.error) {
+            // todo: how does paypal handle errors?
+            onError(capturePaymentResult.error);
+        }
+
+        if (capturePayment.ok) {
+            onSuccess();
+        }
     }
 
     return (
         <Fragment>
             <PayPalButton
                 options={{
-                    'clientId': publicKey,
+                    'clientId': paypalPublicKey,
                     currency,
                 }}
                 createOrder={() => createOrder()}

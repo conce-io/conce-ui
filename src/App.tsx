@@ -20,7 +20,11 @@ interface AppProps {
     publicKey: string;
     currency: string;
     amount: number;
-    stripePublicKey: string;
+    stripe: {
+        publicKey: string;
+    },
+    successCallback: () => void,
+    errorCallback: (error) => void,
 }
 
 interface PaypalState {
@@ -28,15 +32,30 @@ interface PaypalState {
     order: string;
 }
 
-const App = ({publicKey, currency, amount, stripePublicKey}: AppProps) => {
+const App = (
+    {
+        publicKey,
+        currency,
+        amount,
+        stripe,
+        successCallback,
+        errorCallback,
+    }: AppProps
+) => {
     const [stripePromise, setStripePromise] = useState<null | Promise<StripeType>>(null);
     const [gateway, setGateway] = useState(Gateway.Stripe);
     const [paypal, setPaypal] = useState<PaypalState>(null);
     const [isPaypalLoading, setIsPaypalLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        setStripePromise(loadStripe(stripePublicKey));
+        setStripePromise(loadStripe(stripe.publicKey));
     }, []);
+
+    useEffect(() => {
+        if (gateway === Gateway.PayPal && !paypal) {
+            fetchPaypal();
+        }
+    }, [gateway]);
 
     const fetchPaypal = () => {
         setIsPaypalLoading(true);
@@ -58,19 +77,16 @@ const App = ({publicKey, currency, amount, stripePublicKey}: AppProps) => {
             });
     }
 
-    useEffect(() => {
-        if (gateway === Gateway.PayPal && !paypal) {
-            fetchPaypal();
-        }
-    }, [gateway]);
-
     const PayPalOption = () => {
         if (paypal) {
             return (
                 <PayPal
-                    publicKey={paypal.publicKey}
+                    paypalPublicKey={paypal.publicKey}
+                    publicKey={publicKey}
                     orderId={paypal.order}
                     currency={currency}
+                    onSuccess={successCallback}
+                    onError={errorCallback}
                 />
             )
         }
@@ -103,6 +119,8 @@ const App = ({publicKey, currency, amount, stripePublicKey}: AppProps) => {
                                 publicKey={publicKey}
                                 amount={amount}
                                 currency={currency}
+                                onSuccess={successCallback}
+                                onError={errorCallback}
                             />
                         </Elements>
                     </RadioOption>

@@ -26,9 +26,11 @@ interface StripeProps {
     publicKey: string;
     currency: string;
     amount: number;
+    onSuccess: () => void;
+    onError: (error) => void;
 }
 
-const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
+const Stripe: React.FC<StripeProps> = ({ currency, amount, publicKey, onSuccess, onError }) => {
     const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState(false);
@@ -41,8 +43,16 @@ const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
         setError(event.error ? event.error.message : "");
     };
 
-    const handleSubmit = async ev => {
-        ev.preventDefault();
+    const handleError = (error) => {
+        setError(error.message);
+        setProcessing(false);
+        onError({
+            message: error.message,
+        });
+    }
+
+    const handleSubmit = async e => {
+        e.preventDefault();
         setProcessing(true);
 
         // create Stripe payment method
@@ -53,8 +63,7 @@ const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
 
         // (error) show error in payment form
         if (paymentMethodResult.error) {
-            setError(`Payment failed: ${paymentMethodResult.error.message}`);
-            setProcessing(false);
+            handleError(paymentMethodResult.error);
             return;
         }
 
@@ -76,21 +85,21 @@ const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
 
         // (error) show error in payment form
         if (createIntentResult.error) {
-            setError(`Payment failed: ${createIntentResult.error.message}`);
-            setProcessing(false);
+            handleError({
+                message: createIntentResult.error,
+            });
             return;
         }
 
         // (3d-secure) call stripe's handleCardAction
         if (createIntentResult.status === 'requires_action') {
-            const {error: errorAction, paymentIntent} = await stripe.handleCardAction(
+            const { error: errorAction, paymentIntent } = await stripe.handleCardAction(
                 createIntentResult.client_secret
             );
 
             // (3d-secure) (error) show error in payment form
             if (errorAction) {
-                setError(`Payment failed: ${errorAction.message}`);
-                setProcessing(false);
+                handleError(errorAction);
                 return;
             }
 
@@ -101,14 +110,15 @@ const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
                     'Content-Type': 'application/json',
                     publicKey,
                 },
-                body: JSON.stringify({paymentIntentId: paymentIntent.id})
+                body: JSON.stringify({ paymentIntentId: paymentIntent.id })
             });
 
             const confirmIntentResult = await confirmIntent.json();
 
             if (confirmIntentResult.error) {
-                setError(`Payment failed: ${confirmIntentResult.error.message}`);
-                setProcessing(false);
+                handleError({
+                    message: confirmIntentResult.error,
+                });
                 return;
             }
         }
@@ -116,6 +126,7 @@ const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
         setError(null);
         setProcessing(false);
         setSucceeded(true);
+        onSuccess();
     };
 
     return (
@@ -153,7 +164,7 @@ const Stripe: React.FC<StripeProps> = ({currency, amount, publicKey}) => {
 
             <p
                 className='conce__stripe--result'
-                style={{display: succeeded ? 'block' : 'none'}}
+                style={{ display: succeeded ? 'block' : 'none' }}
             >
                 Payment succeeded.
             </p>

@@ -1,13 +1,45 @@
 import React from "preact/compat";
 import App from "./App";
 
-const mount = (publicKey, currency, amount, stripePublicKey, elementId = 'conce-container') => {
+interface MountArgs {
+    publicKey: string;
+    currency: string;
+    amount: number;
+    stripe: {
+        publicKey: string;
+    },
+    elementId: string;
+    successCallback?: () => void,
+    errorCallback?: (error) => void,
+}
+
+const mount = (
+    {
+        publicKey,
+        currency,
+        amount,
+        stripe,
+        elementId = 'conce-container',
+        successCallback,
+        errorCallback,
+    }: MountArgs
+) => {
+    if (!successCallback) {
+        successCallback = () => {};
+    }
+
+    if (!errorCallback) {
+        errorCallback = () => {};
+    }
+
     React.render(
         <App
             publicKey={publicKey}
             amount={amount}
             currency={currency}
-            stripePublicKey={stripePublicKey}
+            stripe={stripe}
+            successCallback={successCallback}
+            errorCallback={errorCallback}
         />,
         document.getElementById(elementId)
     );
