@@ -7,18 +7,12 @@ export default {
     component: App,
 };
 
-export const GBP = () => (
-    <App
-        currency='GBP'
-        amount={750}
-        publicKey='test'
-    />
-);
+const Template = (args) => <App {...args} />;
 
-export const HUF = () => (
-    <App
-        currency='HUF'
-        amount={2500}
-        publicKey='test'
-    />
-);
+export const LightTheme = Template.bind({});
+LightTheme.args = {
+    publicKey: 'yourConcePublicKeyHere',
+    stripePublicKey: 'yourStripePublicKeyHere',
+    currency: 'GBP',
+    amount: 1000,
+};
