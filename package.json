@@ -1,6 +1,6 @@
 {
   "name": "conce-ui",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "todo",
   "main": "build/build.js",
   "module": "build/build.esm.js",
