@@ -7,7 +7,18 @@ export default {
     component: App,
 };
 
-const Template = (args) => <App {...args} />;
+const Template = (args) => {
+    let adjustedArgs = {
+        ...args,
+        stripe: {
+          publicKey: args.stripePublicKey,
+        },
+    }
+
+    return (
+        <App {...adjustedArgs} />
+    )
+};
 
 export const LightTheme = Template.bind({});
 LightTheme.args = {
