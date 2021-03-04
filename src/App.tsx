@@ -81,9 +81,12 @@ const App = (
         if (paypal) {
             return (
                 <PayPal
-                    publicKey={paypal.publicKey}
+                    paypalPublicKey={paypal.publicKey}
+                    publicKey={publicKey}
                     orderId={paypal.order}
                     currency={currency}
+                    onSuccess={successCallback}
+                    onError={errorCallback}
                 />
             )
         }

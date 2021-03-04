@@ -51,8 +51,8 @@ const Stripe: React.FC<StripeProps> = ({ currency, amount, publicKey, onSuccess,
         });
     }
 
-    const handleSubmit = async ev => {
-        ev.preventDefault();
+    const handleSubmit = async e => {
+        e.preventDefault();
         setProcessing(true);
 
         // create Stripe payment method
