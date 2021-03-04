@@ -6,15 +6,7 @@ module.exports = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    {
-      // todo: fix Storybook
-      name: '@storybook/preset-scss',
-      options: {
-        sassLoaderOptions: {
-          indentedSyntax: true,
-        }
-      }
-    },
+    '@storybook/preset-scss',
   ],
   webpackFinal: async (config, { configType }) => {
     config.resolve.alias = {
