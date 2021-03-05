@@ -1,8 +1,9 @@
 /** @jsx h */
-import { h } from 'preact';
+import { h, Fragment } from 'preact';
 import { useState } from 'preact/hooks';
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import './Stripe.scss';
+import { LockIcon } from "../Icons/LockIcon";
 
 const cardStyle = {
     style: {
@@ -148,7 +149,7 @@ const Stripe: React.FC<StripeProps> = ({ currency, amount, publicKey, onSuccess,
                   {processing ? (
                       <div className="conce__stripe__spinner"/>
                   ) : (
-                      "Pay"
+                      <Fragment>Pay Now <LockIcon /></Fragment>
                   )}
                 </span>
             </button>
@@ -161,13 +162,6 @@ const Stripe: React.FC<StripeProps> = ({ currency, amount, publicKey, onSuccess,
                     {error}
                 </div>
             )}
-
-            <p
-                className='conce__stripe--result'
-                style={{ display: succeeded ? 'block' : 'none' }}
-            >
-                Payment succeeded.
-            </p>
         </form>
     );
 }

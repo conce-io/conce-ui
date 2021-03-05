@@ -3,11 +3,10 @@
         width: 100%;
 
         &--error {
-            color: rgb(105, 115, 134);
-            font-size: 16px;
+            color: #EF4444;
+            font-size: 0.85rem;
             line-height: 20px;
-            margin-top: 12px;
-            text-align: center;
+            margin-top: 0.5rem;
         }
 
         input {
@@ -23,12 +22,13 @@
         }
 
         &__button {
-            background: #5469d4;
+            margin-top: 1rem;
+            background: #10B981;
             color: #ffffff;
-            border-radius: 0 0 4px 4px;
+            border-radius: 0.25rem;
             border: 0;
             padding: 12px 16px;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             display: block;
@@ -42,8 +42,14 @@
         }
 
         &__button:disabled {
-            opacity: 0.5;
-            cursor: default;
+            background: #9CA3AF;
+            cursor: not-allowed;
+        }
+
+        &__button .conce__icon {
+            height: 1rem;
+            width: 1rem;
+            float: right;
         }
 
         &__spinner,
@@ -75,7 +81,7 @@
         &__spinner:before {
             width: 10.4px;
             height: 20.4px;
-            background: #5469d4;
+            background: #6B7280;
             border-radius: 20.4px 0 0 20.4px;
             top: -0.2px;
             left: -0.2px;
@@ -88,7 +94,7 @@
         &__spinner:after {
             width: 10.4px;
             height: 10.2px;
-            background: #5469d4;
+            background: #9CA3AF;
             border-radius: 0 10.2px 10.2px 0;
             top: -0.1px;
             left: 10.2px;
@@ -117,7 +123,7 @@
     }
 
     &__stripe-element {
-        border-radius: 4px 4px 0 0;
+        border-radius: 0.25rem;
         padding: 12px;
         border: 1px solid rgba(50, 50, 93, 0.1);
         max-height: 44px;

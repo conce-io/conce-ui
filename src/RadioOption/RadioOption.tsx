@@ -33,7 +33,7 @@ const RadioOption = ({title, selected, onClick, optionKey, children}: Props) => 
                     htmlFor={`settings-option-${optionKey}`}
                     className='conce__radio-option__label'
                 >
-                    <span style={{marginTop: '0.125rem'}}>
+                    <span>
                         {title}
                     </span>
                 </label>

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c --watch",
+    "serve": "serve build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
