@@ -1,13 +1,13 @@
 {
   "name": "conce-ui",
-  "version": "0.6.2",
+  "version": "0.6.7",
   "description": "todo",
-  "main": "build/build.js",
-  "module": "build/build.esm.js",
+  "main": "build/index.js",
+  "module": "build/index.esm.js",
   "author": "Balazs Otakomaiya",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf build && mkdir build && rollup -c",
     "watch": "rollup -c --watch",
     "serve": "serve build",
     "storybook": "start-storybook -p 6006",

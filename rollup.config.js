@@ -11,19 +11,19 @@ export default {
   input: 'src/index.tsx',
   output: [
     {
-      file: 'build/bundle.js',
+      file: 'build/index.js',
       format: 'cjs',
       sourcemap: true,
       inlineDynamicImports: true,
     },
     {
-      file: 'build/bundle.esm.js',
+      file: 'build/index.esm.js',
       format: 'esm',
       sourcemap: true,
       inlineDynamicImports: true,
     },
     {
-      file: 'build/bundle.min.js',
+      file: 'build/conce.min.js', // browser
       format: 'iife',
       name: 'conce',
       sourcemap: true,
@@ -45,7 +45,9 @@ export default {
     nodeResolve({
       jsnext: true, // remove?
     }),
-    scss(),
+    scss({
+      output: 'build/conce.css',
+    }),
     commonjs(),
     typescript(),
     replace({

@@ -13,8 +13,8 @@ interface MountArgs {
     errorCallback?: (error) => void,
 }
 
-const mount = (
-    {
+const mount = (options: MountArgs) => {
+    let {
         publicKey,
         currency,
         amount,
@@ -22,8 +22,8 @@ const mount = (
         elementId = 'conce-container',
         successCallback,
         errorCallback,
-    }: MountArgs
-) => {
+    } = options;
+
     if (!successCallback) {
         successCallback = () => {};
     }
@@ -50,3 +50,5 @@ if (window) {
         mount,
     };
 }
+
+export { mount };
