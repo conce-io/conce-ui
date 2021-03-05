@@ -23,11 +23,11 @@
         }
 
         &__input:checked {
-            box-shadow: 0 0 0 2px #1E40AF;
+            box-shadow: 0 0 0 2px #374151;
         }
 
         &__input:checked:before {
-            background: #1E40AF;
+            background: #374151;
         }
 
         &__input:before {
@@ -44,6 +44,7 @@
             flex-direction: column;
             margin-left: 0.75rem;
             cursor: pointer;
+            margin-top: -1px;
         }
     }
 
