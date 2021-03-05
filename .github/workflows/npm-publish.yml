@@ -28,7 +28,6 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
       - run: cp package.json build
-      - run: cd build
-      - run: npm publish
+      - run: cd build && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
