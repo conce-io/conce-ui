@@ -65,7 +65,7 @@ const App = (
             amount: amount.toString(),
         });
 
-        fetch(`http://conce.test/api/paypal/create?${urlParams}`, {
+        fetch(`https://conce.test/api/paypal/create?${urlParams}`, {
             headers: {
                 publicKey,
             }

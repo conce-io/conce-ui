@@ -69,7 +69,7 @@ const Stripe: React.FC<StripeProps> = ({ currency, amount, publicKey, onSuccess,
         }
 
         // send payment method to server
-        const createIntent = await fetch('http://conce.test/api/stripe/create', {
+        const createIntent = await fetch('https://conce.test/api/stripe/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const Stripe: React.FC<StripeProps> = ({ currency, amount, publicKey, onSuccess,
             }
 
             // (3d-secure) confirm payment intent on the server
-            const confirmIntent = await fetch('http://conce.test/api/stripe/confirm', {
+            const confirmIntent = await fetch('https://conce.test/api/stripe/confirm', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

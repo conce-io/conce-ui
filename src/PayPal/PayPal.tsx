@@ -28,7 +28,7 @@ const PayPal = (
     }
 
     const approveOrder = async (data): Promise<void> => {
-        const capturePayment = await fetch('http://conce.test/api/paypal/capture', {
+        const capturePayment = await fetch('https://conce.test/api/paypal/capture', {
             headers: {
                 publicKey,
                 'content-type': 'application/json',
