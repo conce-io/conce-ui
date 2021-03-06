@@ -3,7 +3,7 @@
     <img src="assets/conce.svg" alt="Logo" height="80">
   </a>
 
-  <h3 align="center">💖Conce Drop-in UI</h3>
+  <h3 align="center">💖 Conce Drop-in UI</h3>
 
   <p align="center">
     Start accepting Stripe & PayPal payments on your website in 30 seconds
